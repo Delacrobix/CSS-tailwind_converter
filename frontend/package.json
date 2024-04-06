@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.2.10",
     "antd": "^5.15.3",
+    "codemirror": "^6.0.1",
+    "framer-motion": "^11.0.25",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-codemirror2": "^7.3.0",
+    "react-dom": "^18.2.0",
+    "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -1,11 +1,7 @@
-import Principal from './components/principal';
+import Principal from './pages/principal';
 
 function App() {
-  return (
-    <div className="">
-      <Principal />
-    </div>
-  );
+  return <Principal />;
 }
 
 export default App;
