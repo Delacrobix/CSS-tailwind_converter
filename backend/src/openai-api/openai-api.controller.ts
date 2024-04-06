@@ -26,7 +26,7 @@ export class OpenAIApiController {
     data: GetOpenAIAnswerInputDTO,
   ) {
     const prompt = TAILWIND_TO_CSS_PROMPT(data.message);
-
-    return this.service.getAIResponse(prompt);
+    // return this.service.getAIResponse(prompt);
+    return { prompt };
   }
 }
