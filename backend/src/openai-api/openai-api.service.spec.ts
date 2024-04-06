@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ChatCompletionApiService } from './openai-api.service';
+import { OpenAIApiService } from './openai-api.service';
 
-describe('ChatCompletionApiService', () => {
-  let service: ChatCompletionApiService;
+describe('OpenAIApiService', () => {
+  let service: OpenAIApiService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ChatCompletionApiService],
+      providers: [OpenAIApiService],
     }).compile();
 
-    service = module.get<ChatCompletionApiService>(ChatCompletionApiService);
+    service = module.get<OpenAIApiService>(OpenAIApiService);
   });
 
   it('should be defined', () => {

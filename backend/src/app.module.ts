@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ChatCompletionApiService } from './openai-api/openai-api.service';
-import { ChatCompletionApiModule } from './openai-api/openai-api.module';
+import { OpenAIApiService } from './openai-api/openai-api.service';
+import { OpenAIApiModule } from './openai-api/openai-api.module';
 
 @Module({
-  imports: [ChatCompletionApiModule],
+  imports: [OpenAIApiModule],
   controllers: [AppController],
-  providers: [AppService, ChatCompletionApiService],
+  providers: [AppService, OpenAIApiService],
 })
 export class AppModule {}
