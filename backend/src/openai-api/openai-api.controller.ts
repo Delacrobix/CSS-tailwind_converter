@@ -15,9 +15,10 @@ export class OpenAIApiController {
     @Body(new ValidationPipe({ transform: true }))
     data: GetOpenAIAnswerInputDTO,
   ) {
+    console.log('data: ', data);
     const prompt = CSS_TO_TAILWIND_PROMPT(data.message);
-    const response = await this.service.getAIResponse(prompt);
-    return response;
+    return { prompt };
+    return await this.service.getAIResponse(prompt);
   }
 
   @Post('tailwind-to-css')
@@ -26,7 +27,7 @@ export class OpenAIApiController {
     data: GetOpenAIAnswerInputDTO,
   ) {
     const prompt = TAILWIND_TO_CSS_PROMPT(data.message);
-    // return this.service.getAIResponse(prompt);
     return { prompt };
+    return this.service.getAIResponse(prompt);
   }
 }
