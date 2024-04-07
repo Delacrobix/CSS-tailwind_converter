@@ -7,8 +7,7 @@ export class ApiKeyMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     const apiKey = req.headers['api-key'];
-    console.log('apiKey: ', apiKey);
-    console.log('validApiKey: ', this.validApiKey);
+
     if (!apiKey || apiKey !== this.validApiKey) {
       return res.status(401).json({ message: 'Api key is not valid' });
     }
