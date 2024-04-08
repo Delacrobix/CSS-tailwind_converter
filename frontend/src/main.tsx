@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <NextUIProvider>
       <App />
-      <Toaster />
+      <Toaster visibleToasts={3} />
     </NextUIProvider>
   </React.StrictMode>
 );

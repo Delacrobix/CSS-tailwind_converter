@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Textarea } from "@nextui-org/react";
+import React, { Key } from "react";
+import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
 import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
 
@@ -8,6 +8,8 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function InputForm() {
   const [content, setContent] = React.useState<string>("");
+  const [convertMode, setConvertMode] = React.useState<string>("ctt");
+
   const { loading, error, data, sendRequest } = UseRequests<string>();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -17,23 +19,37 @@ export default function InputForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
+
+      const endpoint =
+        convertMode === "ctt" ? "css-to-tailwind" : "tailwind-to-css";
+
       await sendRequest({
         method: "post",
-        url: `${BACKEND_URL}/openai-api/css-to-tailwind`,
+        url: `${BACKEND_URL}/openai-api/${endpoint}`,
         data: { message: content },
         headers: {
           "Content-Type": "application/json",
           "api-key": API_KEY,
         },
       });
-
-      console.log("Data: ", data);
-    } catch (error) {
-      console.error("Error on submit: ", error);
-      toast.error("Something went wrong! Please try again.", {
-        duration: 5000,
-      });
+    } catch (e) {
+      console.error("Error on submit: ", e);
+      console.error("Error on Request: ", error);
+    } finally {
+      if (!data || error) {
+        toast.error("Something went wrong! Please try again.", {
+          duration: 5000,
+          style: {
+            color: "red",
+            borderRadius: "0.5rem",
+          },
+        });
+      }
     }
+  }
+
+  function handleSelect(value: string) {
+    setConvertMode(value);
   }
 
   function handleButtonDisable() {
@@ -42,6 +58,7 @@ export default function InputForm() {
 
   return (
     <form>
+      <ListboxWrapper convertMode={convertMode} handleSelect={handleSelect} />
       <Textarea
         className='max-w-lg'
         label='Code'
@@ -64,5 +81,27 @@ export default function InputForm() {
         Submit
       </Button>
     </form>
+  );
+}
+
+interface ListboxWrapperProps {
+  convertMode: string;
+  handleSelect: (value: string) => void;
+}
+
+function ListboxWrapper(props: Readonly<ListboxWrapperProps>) {
+  const { convertMode, handleSelect } = props;
+
+  return (
+    <div className='flex flex-wrap gap-4'>
+      <Tabs
+        size='md'
+        color='secondary'
+        selectedKey={convertMode}
+        onSelectionChange={handleSelect as (key: Key) => unknown}>
+        <Tab key='ctt' title='CSS to tailwind' />
+        <Tab key='ttc' title='Tailwind to CSS' />
+      </Tabs>
+    </div>
   );
 }
