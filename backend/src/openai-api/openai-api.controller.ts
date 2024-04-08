@@ -15,7 +15,6 @@ export class OpenAIApiController {
     @Body(new ValidationPipe({ transform: true }))
     data: GetOpenAIAnswerInputDTO,
   ) {
-    console.log('data: ', data);
     const prompt = CSS_TO_TAILWIND_PROMPT(data.message);
     return { prompt };
     return await this.service.getAIResponse(prompt);
