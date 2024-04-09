@@ -1,5 +1,8 @@
 import React from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import prettier from "prettier/standalone";
+import * as htmlPlugin from "prettier/parser-html";
+import * as cssPlugin from "prettier/plugins/postcss";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface CodeBoxProps {
@@ -13,15 +16,32 @@ export default function CodeBox({
   language,
   style,
 }: Readonly<CodeBoxProps>) {
-  const [codeState, setCodeState] = React.useState<string>("");
+  const [formattedCode, setFormattedCode] = React.useState<string>("");
 
   React.useEffect(() => {
-    setCodeState(code ?? "");
+    async function formatCode() {
+      const newCode = prettier.format(code ?? "", {
+        parser: language === "xml" ? "html" : "css",
+        plugins: [htmlPlugin, cssPlugin],
+        tabWidth: 2,
+        htmlWhitespaceSensitivity: "ignore",
+      });
+
+      setFormattedCode((await newCode) ?? "");
+    }
+
+    formatCode();
   }, [code]);
 
   return (
-    <SyntaxHighlighter language={`${language}`} style={docco}>
-      {codeState}
-    </SyntaxHighlighter>
+    <div className=' w-[40%] overflow-y-auto whitespace-pre-wrap'>
+      <SyntaxHighlighter
+        showLineNumbers={true}
+        language={`${language}`}
+        style={docco}
+        customStyle={style}>
+        {formattedCode}
+      </SyntaxHighlighter>
+    </div>
   );
 }
