@@ -1,19 +1,25 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Principal from "./pages/principal";
 import Result from "./pages/result";
-
-//TODO: block access to /result if no data is available
+import { useGlobalState } from "./context/globalContext";
 
 function App() {
+  const { isSubmitted } = useGlobalState();
+
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Principal />} />
-        <Route path='/result' element={<Result />} />
-        {/* <Route
-        path='/result'
-        element={submitted ? <Result /> : <Navigate to='/' />}
-      /> */}
+        {/* <Route path='/result' element={<Result />} /> */}
+        <Route
+          path='/result'
+          element={isSubmitted ? <Result /> : <Navigate to='/' />}
+        />
       </Routes>
     </Router>
   );

@@ -10,8 +10,12 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 export default function InputForm() {
   const [content, setContent] = React.useState<string>("");
   const [convertMode, setConvertMode] = React.useState<string>("ctt");
-  const { setCodeToConvert, setConvertedCode, setSelectedMode } =
-    useGlobalActions();
+  const {
+    setCodeToConvert,
+    setConvertedCode,
+    setSelectedMode,
+    setIsSubmitted,
+  } = useGlobalActions();
   const { loading, error, data, sendRequest } = UseRequests<string>();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -46,6 +50,7 @@ export default function InputForm() {
           const code = codeJson.code;
 
           setConvertedCode(code);
+          setIsSubmitted(true);
         } catch (e) {
           console.error("Error converting to json: ", e);
           toast.error("Something went wrong! Please try again.", {

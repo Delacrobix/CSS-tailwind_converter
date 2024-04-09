@@ -4,12 +4,14 @@ type GlobalStateType = {
   codeToConvert: string;
   convertedCode: string;
   selectedMode: string;
+  isSubmitted: boolean;
 };
 
 type GlobalActionsType = {
   setCodeToConvert: React.Dispatch<React.SetStateAction<string>>;
   setConvertedCode: React.Dispatch<React.SetStateAction<string>>;
   setSelectedMode: React.Dispatch<React.SetStateAction<string>>;
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const GlobalStateContext = React.createContext<GlobalStateType | undefined>(
@@ -42,10 +44,11 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const [codeToConvert, setCodeToConvert] = React.useState<string>("");
   const [convertedCode, setConvertedCode] = React.useState<string>("");
   const [selectedMode, setSelectedMode] = React.useState<string>("");
+  const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
 
   const stateValue = React.useMemo(
-    () => ({ codeToConvert, convertedCode, selectedMode }),
-    [codeToConvert, convertedCode, selectedMode]
+    () => ({ codeToConvert, convertedCode, selectedMode, isSubmitted }),
+    [codeToConvert, convertedCode, selectedMode, isSubmitted]
   );
 
   const actionsValue = React.useMemo(
@@ -53,8 +56,9 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       setCodeToConvert,
       setConvertedCode,
       setSelectedMode,
+      setIsSubmitted,
     }),
-    [setCodeToConvert, setConvertedCode, setSelectedMode]
+    [setCodeToConvert, setConvertedCode, setSelectedMode, setIsSubmitted]
   );
 
   return (
