@@ -5,7 +5,7 @@ import CodeBox from "../components/codeBox";
 export default function Result() {
   const { selectedMode, codeToConvert, convertedCode } = useGlobalState();
 
-  function getLanguage(key) {
+  function getLanguage(key: string) {
     const firstLetter = selectedMode[0];
 
     switch (key) {
@@ -20,6 +20,7 @@ export default function Result() {
 
   return (
     <div className='flex  justify-center gap-4 m-4'>
+      <h2>Result</h2>
       <CodeBox code={codeToConvert} language={getLanguage("from")} />
       <CodeBox code={convertedCode} language={getLanguage("to")} />
     </div>
