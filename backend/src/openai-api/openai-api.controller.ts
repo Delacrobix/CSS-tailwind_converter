@@ -6,6 +6,8 @@ import {
   TAILWIND_TO_CSS_PROMPT,
 } from './utils/prompts';
 
+// TODO: Control with AI is the code is valid
+
 @Controller('openai-api')
 export class OpenAIApiController {
   constructor(private readonly service: OpenAIApiService) {}
@@ -15,8 +17,13 @@ export class OpenAIApiController {
     @Body(new ValidationPipe({ transform: true }))
     data: GetOpenAIAnswerInputDTO,
   ) {
-    const prompt = CSS_TO_TAILWIND_PROMPT(data.message);
-    return await this.service.getAIResponse(prompt);
+    try {
+      const prompt = CSS_TO_TAILWIND_PROMPT(data.message);
+
+      return await this.service.getAIResponse(prompt);
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 
   @Post('tailwind-to-css')
@@ -24,7 +31,12 @@ export class OpenAIApiController {
     @Body(new ValidationPipe({ transform: true }))
     data: GetOpenAIAnswerInputDTO,
   ) {
-    const prompt = TAILWIND_TO_CSS_PROMPT(data.message);
-    return this.service.getAIResponse(prompt);
+    try {
+      const prompt = TAILWIND_TO_CSS_PROMPT(data.message);
+
+      return await this.service.getAIResponse(prompt);
+    } catch (e) {
+      throw new Error(e);
+    }
   }
 }
