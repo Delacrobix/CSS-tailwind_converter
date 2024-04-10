@@ -3,9 +3,12 @@ import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
 import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
 import { useGlobalActions } from "../context/globalContext";
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
+
+//TODO: It's posible that the request hook is send two times the request
 
 export default function InputForm() {
   const [content, setContent] = React.useState<string>("");
@@ -17,6 +20,44 @@ export default function InputForm() {
     setIsSubmitted,
   } = useGlobalActions();
   const { loading, error, data, sendRequest } = UseRequests<string>();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (error) {
+      toast.error("Something went wrong! Please try again.", {
+        duration: 5000,
+        style: {
+          color: "red",
+          borderRadius: "0.5rem",
+        },
+      });
+
+      console.error("Error: ", error);
+
+      return;
+    }
+
+    if (data) {
+      try {
+        const codeJson = JSON.parse(data.aiMessage);
+        const code = codeJson?.code;
+
+        setConvertedCode(code);
+        setIsSubmitted(true);
+
+        navigate("/result");
+      } catch (e) {
+        console.error("Error converting to json: ", e);
+        toast.error("Something went wrong! Please try again.", {
+          duration: 5000,
+          style: {
+            color: "red",
+            borderRadius: "0.5rem",
+          },
+        });
+      }
+    }
+  }, [data, error]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setContent(event.target.value);
@@ -41,43 +82,8 @@ export default function InputForm() {
           "api-key": API_KEY,
         },
       });
-
-      if (data) {
-        const result = data.aiMessage;
-
-        try {
-          const codeJson = JSON.parse(result);
-          const code = codeJson.code;
-
-          setConvertedCode(code);
-          setIsSubmitted(true);
-        } catch (e) {
-          console.error("Error converting to json: ", e);
-          toast.error("Something went wrong! Please try again.", {
-            duration: 5000,
-            style: {
-              color: "red",
-              borderRadius: "0.5rem",
-            },
-          });
-        }
-      }
     } catch (e) {
       console.error("Error on submit: ", e);
-    } finally {
-      if (!data || error) {
-        toast.error("Something went wrong! Please try again.", {
-          duration: 5000,
-          style: {
-            color: "red",
-            borderRadius: "0.5rem",
-          },
-        });
-
-        if (error) {
-          console.error("Error: ", error);
-        }
-      }
     }
   }
 
