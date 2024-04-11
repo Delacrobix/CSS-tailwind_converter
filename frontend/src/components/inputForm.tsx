@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-//TODO: It's posible that the request hook is send two times the request
+//FIXME: It's posible that the request hook is send two times the request
 
 export default function InputForm() {
   const [content, setContent] = React.useState<string>("");

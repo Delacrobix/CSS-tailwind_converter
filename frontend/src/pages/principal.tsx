@@ -1,5 +1,4 @@
 import React from "react";
-import TextBox from "../components/inputForm";
 import InputForm from "../components/inputForm";
 
 export default function Principal() {

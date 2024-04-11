@@ -7,6 +7,7 @@ import {
 import Principal from "./pages/principal";
 import Result from "./pages/result";
 import { useGlobalState } from "./context/globalContext";
+import NavbarMenu from "./components/navbar";
 
 function App() {
   const { isSubmitted } = useGlobalState();
@@ -14,12 +15,37 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Principal />} />
-        {/* <Route path='/result' element={<Result />} /> */}
+        <Route
+          path='/'
+          element={
+            <>
+              <NavbarMenu />
+              <Principal />
+            </>
+          }
+        />
         <Route
           path='/result'
-          element={isSubmitted ? <Result /> : <Navigate to='/' />}
+          element={
+            <>
+              <NavbarMenu />
+              <Result />
+            </>
+          }
         />
+        {/* <Route
+          path='/result'
+          element={
+            isSubmitted ? (
+              <>
+                <NavbarMenu />
+                <Result />
+              </>
+            ) : (
+              <Navigate to='/' />
+            )
+          }
+        /> */}
       </Routes>
     </Router>
   );

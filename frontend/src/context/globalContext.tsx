@@ -43,7 +43,7 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [codeToConvert, setCodeToConvert] = React.useState<string>("");
   const [convertedCode, setConvertedCode] = React.useState<string>("");
-  const [selectedMode, setSelectedMode] = React.useState<string>("");
+  const [selectedMode, setSelectedMode] = React.useState<string>("ctt");
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
 
   const stateValue = React.useMemo(
