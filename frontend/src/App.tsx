@@ -19,7 +19,7 @@ function App() {
           path='/'
           element={
             <>
-              <NavbarMenu />
+              <NavbarMenu title={"CSS-Tailwind converter"} />
               <Principal />
             </>
           }
@@ -28,7 +28,7 @@ function App() {
           path='/result'
           element={
             <>
-              <NavbarMenu />
+              <NavbarMenu title={"Result"} />
               <Result />
             </>
           }

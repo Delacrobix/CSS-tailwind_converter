@@ -18,8 +18,8 @@ export default function UseRequests<T>(): UseRequests<T> {
     try {
       const response: AxiosResponse<T> = await axios(config);
       setData(response.data);
-    } catch (error) {
-      setError(error);
+    } catch (error: unknown) {
+      setError(error as Error);
     } finally {
       setLoading(false);
     }

@@ -39,7 +39,7 @@ export default function CodeBox({
         showLineNumbers={true}
         language={`${language}`}
         style={docco}
-        customStyle={style}>
+        customStyles={style}>
         {formattedCode}
       </SyntaxHighlighter>
     </div>

@@ -2,7 +2,7 @@ import React, { Key } from "react";
 import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
 import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
-import { useGlobalActions } from "../context/globalContext";
+import { useGlobalActions, useGlobalState } from "../context/globalContext";
 import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
@@ -12,13 +12,9 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function InputForm() {
   const [content, setContent] = React.useState<string>("");
-  const [convertMode, setConvertMode] = React.useState<string>("ctt");
-  const {
-    setCodeToConvert,
-    setConvertedCode,
-    setSelectedMode,
-    setIsSubmitted,
-  } = useGlobalActions();
+  const { setCodeToConvert, setConvertedCode, setIsSubmitted } =
+    useGlobalActions();
+  const { selectedMode } = useGlobalState();
   const { loading, error, data, sendRequest } = UseRequests<string>();
   const navigate = useNavigate();
 
@@ -33,7 +29,6 @@ export default function InputForm() {
       });
 
       console.error("Error: ", error);
-
       return;
     }
 
@@ -67,11 +62,10 @@ export default function InputForm() {
     try {
       event.preventDefault();
 
-      setSelectedMode(convertMode);
       setCodeToConvert(content);
 
       const endpoint =
-        convertMode === "ctt" ? "css-to-tailwind" : "tailwind-to-css";
+        selectedMode === "ctt" ? "css-to-tailwind" : "tailwind-to-css";
 
       await sendRequest({
         method: "post",
@@ -87,17 +81,13 @@ export default function InputForm() {
     }
   }
 
-  function handleSelect(value: string) {
-    setConvertMode(value);
-  }
-
   function handleButtonDisable() {
     return content.length === 0;
   }
 
   return (
     <form>
-      <ListboxWrapper convertMode={convertMode} handleSelect={handleSelect} />
+      <ListboxWrapper />
       <Textarea
         className='max-w-lg'
         label='Code'
@@ -123,20 +113,21 @@ export default function InputForm() {
   );
 }
 
-interface ListboxWrapperProps {
-  convertMode: string;
-  handleSelect: (value: string) => void;
-}
+// #region ListboxWrapper
+function ListboxWrapper() {
+  const { setSelectedMode } = useGlobalActions();
+  const { selectedMode } = useGlobalState();
 
-function ListboxWrapper(props: Readonly<ListboxWrapperProps>) {
-  const { convertMode, handleSelect } = props;
+  function handleSelect(value: string) {
+    setSelectedMode(value);
+  }
 
   return (
     <div className='flex flex-wrap gap-4'>
       <Tabs
         size='md'
         color='secondary'
-        selectedKey={convertMode}
+        selectedKey={selectedMode}
         onSelectionChange={handleSelect as (key: Key) => unknown}>
         <Tab key='ctt' title='CSS to tailwind' />
         <Tab key='ttc' title='Tailwind to CSS' />
