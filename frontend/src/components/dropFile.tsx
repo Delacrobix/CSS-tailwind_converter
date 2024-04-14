@@ -12,6 +12,8 @@ export default function DropFile() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    if (acceptedFiles.length === 0) return;
+
     if (acceptedFiles.length > 1) {
       toast.warning("Please select only one file!", {
         duration: 5000,

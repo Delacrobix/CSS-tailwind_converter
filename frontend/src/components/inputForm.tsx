@@ -1,5 +1,5 @@
 import React, { Key } from "react";
-import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
+import { Button, Textarea, Tab, Tabs, code } from "@nextui-org/react";
 import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
 import { useGlobalActions, useGlobalState } from "../context/globalContext";
@@ -10,14 +10,15 @@ const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 //FIXME: It's posible that the request hook is send two times the request
-
 export default function InputForm() {
-  const [content, setContent] = React.useState<string>("");
-  const { setCodeToConvert, setConvertedCode, setIsSubmitted } =
-    useGlobalActions();
+  const navigate = useNavigate();
   const { selectedMode } = useGlobalState();
   const { loading, error, data, sendRequest } = UseRequests<string>();
-  const navigate = useNavigate();
+  const { setCodeToConvert, setConvertedCode, setIsSubmitted } =
+    useGlobalActions();
+  const { codeToConvert } = useGlobalState();
+
+  const [content, setContent] = React.useState<string>("");
 
   React.useEffect(() => {
     if (error) {
@@ -55,6 +56,10 @@ export default function InputForm() {
       }
     }
   }, [data, error]);
+
+  React.useEffect(() => {
+    setContent(codeToConvert);
+  }, [codeToConvert]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setContent(event.target.value);
@@ -96,6 +101,7 @@ export default function InputForm() {
         variant='bordered'
         placeholder='Write or paste your code here...'
         defaultValue={content}
+        value={content}
         onChange={handleChange as React.ChangeEventHandler<HTMLInputElement>}
       />
       <Button
