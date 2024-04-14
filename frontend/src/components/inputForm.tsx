@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
 import { useGlobalActions, useGlobalState } from "../context/globalContext";
 import { useNavigate } from "react-router-dom";
+import { DataFromAPI } from "../utils/types";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -34,8 +35,9 @@ export default function InputForm() {
 
     if (data) {
       try {
-        const codeJson = JSON.parse(data.aiMessage);
-        const code = codeJson?.code;
+        const formattedData: DataFromAPI = data;
+        const jsonData = JSON.parse(formattedData.aiMessage);
+        const code = jsonData.code;
 
         setConvertedCode(code);
         setIsSubmitted(true);
