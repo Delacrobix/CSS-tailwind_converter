@@ -2,14 +2,12 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { useGlobalActions } from "../context/globalContext";
-import { useNavigate } from "react-router-dom";
 
 // TODO: Maybe show one page with the mode selected and file before convert
 export default function DropFile() {
   const { setCodeToConvert, setIsSubmitted, setSelectedMode } =
     useGlobalActions();
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (acceptedFiles.length === 0) return;
@@ -36,8 +34,6 @@ export default function DropFile() {
 
         setCodeToConvert(fileContent as string);
         setIsSubmitted(true);
-
-        navigate("/result");
       } catch (e) {
         console.error("Error reading file content: ", e);
         toast.error("Something went wrong! Please try again.", {

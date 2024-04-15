@@ -3,6 +3,7 @@ import InputForm from "../components/inputForm";
 import { Button } from "@nextui-org/react";
 import DropFile from "../components/dropFile";
 import ExamplesLayer from "../components/examplesLayer";
+import ModalLayout from "../components/modal";
 
 export default function Principal() {
   return (
@@ -15,6 +16,7 @@ export default function Principal() {
         </div>
       </div>
       <ExamplesLayer />
+      <ModalLayout />
     </section>
   );
 }

@@ -34,14 +34,12 @@ export default function CodeBox({
   }, [code]);
 
   return (
-    <div className=' w-[40%] overflow-y-auto whitespace-pre-wrap'>
-      <SyntaxHighlighter
-        showLineNumbers={true}
-        language={`${language}`}
-        style={docco}
-        customStyles={style}>
-        {formattedCode}
-      </SyntaxHighlighter>
-    </div>
+    <SyntaxHighlighter
+      showLineNumbers={true}
+      language={`${language}`}
+      style={docco}
+      customStyles={style}>
+      {formattedCode}
+    </SyntaxHighlighter>
   );
 }
