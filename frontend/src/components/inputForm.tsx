@@ -1,10 +1,10 @@
 import React, { Key } from "react";
 import { Button, Textarea, Tab, Tabs, code } from "@nextui-org/react";
-import { toast } from "sonner";
 import UseRequests from "../hooks/useRequests";
 import { useGlobalActions, useGlobalState } from "../context/globalContext";
 import { useNavigate } from "react-router-dom";
 import { DataFromAPI } from "../utils/types";
+import { getToastError } from "../utils/toasts";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -22,13 +22,7 @@ export default function InputForm() {
 
   React.useEffect(() => {
     if (error) {
-      toast.error("Something went wrong! Please try again.", {
-        duration: 5000,
-        style: {
-          color: "red",
-          borderRadius: "0.5rem",
-        },
-      });
+      getToastError();
 
       console.error("Error: ", error);
       return;
@@ -46,13 +40,7 @@ export default function InputForm() {
         navigate("/result");
       } catch (e) {
         console.error("Error converting to json: ", e);
-        toast.error("Something went wrong! Please try again.", {
-          duration: 5000,
-          style: {
-            color: "red",
-            borderRadius: "0.5rem",
-          },
-        });
+        getToastError();
       }
     }
   }, [data, error]);
@@ -115,7 +103,7 @@ export default function InputForm() {
             HTMLButtonElement | HTMLFormElement
           >
         }>
-        Submit
+        Convert
       </Button>
     </form>
   );

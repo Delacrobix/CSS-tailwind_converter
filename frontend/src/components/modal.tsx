@@ -12,57 +12,125 @@ import { useGlobalActions, useGlobalState } from "../context/globalContext";
 import { useNavigate } from "react-router-dom";
 import CodeBox from "./codeBox";
 import { getLanguage } from "../utils/functions";
+import UseRequests from "../hooks/useRequests";
+import { getToastError } from "../utils/toasts";
+import { DataFromAPI } from "../utils/types";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export default function ModalLayout() {
-  const { codeToConvert, selectedMode, isSubmitted } = useGlobalState();
-  const { setIsSubmitted } = useGlobalActions();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { codeToConvert, selectedMode, isModalOpen } = useGlobalState();
+  const { setIsSubmitted, setConvertedCode, setIsModalOpen } =
+    useGlobalActions();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { loading, error, data, sendRequest } = UseRequests<string>();
   const navigate = useNavigate();
 
   const [code, setCode] = React.useState<string>("");
 
   React.useEffect(() => {
-    console.log("isSubmitted", isSubmitted);
-    if (!isSubmitted) return;
+    if (!isModalOpen) return;
     onOpen();
-    setIsSubmitted(false);
-  }, [isSubmitted]);
+  }, [isModalOpen]);
 
   React.useEffect(() => {
     if (!codeToConvert) return;
     setCode(codeToConvert);
   }, [codeToConvert]);
 
-  function handleClick(onClose: () => void) {
+  React.useEffect(() => {
+    if (error) {
+      console.error("Error: ", error);
+      getToastError();
+      return;
+    }
+
+    if (data) {
+      try {
+        const formattedData: DataFromAPI = data;
+        const jsonData = JSON.parse(formattedData.aiMessage);
+        const code = jsonData.code;
+
+        console.log("typeOF: ", typeof code, "Code: ", code);
+
+        if (typeof code === "string") {
+          setConvertedCode(code);
+          handleCloseModal();
+          navigate("/result");
+        } else if (typeof code === "object") {
+          const stringCode = JSON.stringify(code);
+          setConvertedCode(stringCode);
+          handleCloseModal();
+          navigate("/result");
+        } else {
+          getToastError();
+        }
+      } catch (e) {
+        console.error("Error converting to json: ", e);
+        getToastError();
+      }
+    }
+  }, [data, error]);
+
+  function handleCloseModal() {
+    setIsSubmitted(true);
+    setIsModalOpen(false);
     onClose();
-    navigate("/result");
+  }
+
+  function handleClick() {
+    const mode = selectedMode;
+    const content = code;
+
+    handleRequests(content, mode);
+  }
+
+  async function handleRequests(content: string, mode: string) {
+    const endpoint = mode === "ctt" ? "css-to-tailwind" : "tailwind-to-css";
+
+    try {
+      await sendRequest({
+        method: "post",
+        url: `${BACKEND_URL}/openai-api/${endpoint}`,
+        data: { message: content },
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": API_KEY,
+        },
+      });
+    } catch (e) {
+      console.error("Error sending request: ", e);
+    }
   }
 
   return (
-    <Modal className='h-3/4' isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      size='2xl'
+      className='h-3/4'
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}>
       <ModalContent className=''>
-        {(onClose) => (
-          <>
-            <ModalHeader className='flex flex-col gap-1'>
-              Confirm your file content
-            </ModalHeader>
-            <ModalBody className='overflow-y-auto'>
-              <CodeBox
-                code={code}
-                language={getLanguage("from", selectedMode[0])}
-                style=''
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                color='secondary'
-                variant='light'
-                onPress={() => handleClick(onClose)}>
-                Let's convert
-              </Button>
-            </ModalFooter>
-          </>
-        )}
+        <>
+          <ModalHeader className='flex flex-col gap-1'>
+            Confirm your file content
+          </ModalHeader>
+          <ModalBody className='overflow-y-auto'>
+            <CodeBox
+              code={code}
+              language={getLanguage("from", selectedMode[0])}
+            />
+          </ModalBody>
+          <ModalFooter className='flex justify-center'>
+            <Button
+              color='secondary'
+              variant='light'
+              isLoading={loading}
+              onPress={handleClick}>
+              Let's convert
+            </Button>
+          </ModalFooter>
+        </>
       </ModalContent>
     </Modal>
   );

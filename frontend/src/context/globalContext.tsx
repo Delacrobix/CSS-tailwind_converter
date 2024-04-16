@@ -5,6 +5,7 @@ type GlobalStateType = {
   convertedCode: string;
   selectedMode: string;
   isSubmitted: boolean;
+  isModalOpen: boolean;
 };
 
 type GlobalActionsType = {
@@ -12,6 +13,7 @@ type GlobalActionsType = {
   setConvertedCode: React.Dispatch<React.SetStateAction<string>>;
   setSelectedMode: React.Dispatch<React.SetStateAction<string>>;
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const GlobalStateContext = React.createContext<GlobalStateType | undefined>(
@@ -45,10 +47,17 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const [convertedCode, setConvertedCode] = React.useState<string>("");
   const [selectedMode, setSelectedMode] = React.useState<string>("ctt");
   const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
   const stateValue = React.useMemo(
-    () => ({ codeToConvert, convertedCode, selectedMode, isSubmitted }),
-    [codeToConvert, convertedCode, selectedMode, isSubmitted]
+    () => ({
+      codeToConvert,
+      convertedCode,
+      selectedMode,
+      isSubmitted,
+      isModalOpen,
+    }),
+    [codeToConvert, convertedCode, selectedMode, isSubmitted, isModalOpen]
   );
 
   const actionsValue = React.useMemo(
@@ -57,8 +66,15 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
       setConvertedCode,
       setSelectedMode,
       setIsSubmitted,
+      setIsModalOpen,
     }),
-    [setCodeToConvert, setConvertedCode, setSelectedMode, setIsSubmitted]
+    [
+      setCodeToConvert,
+      setConvertedCode,
+      setSelectedMode,
+      setIsSubmitted,
+      setIsModalOpen,
+    ]
   );
 
   return (

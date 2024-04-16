@@ -1,11 +1,11 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { toast } from "sonner";
 import { useGlobalActions } from "../context/globalContext";
+import { getToastError, getToastWarning } from "../utils/toasts";
 
 // TODO: Maybe show one page with the mode selected and file before convert
 export default function DropFile() {
-  const { setCodeToConvert, setIsSubmitted, setSelectedMode } =
+  const { setCodeToConvert, setSelectedMode, setIsModalOpen } =
     useGlobalActions();
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
@@ -13,13 +13,7 @@ export default function DropFile() {
     if (acceptedFiles.length === 0) return;
 
     if (acceptedFiles.length > 1) {
-      toast.warning("Please select only one file!", {
-        duration: 5000,
-        style: {
-          color: "orange",
-          borderRadius: "0.5rem",
-        },
-      });
+      getToastWarning("Please select only one file!");
       return;
     }
 
@@ -33,31 +27,18 @@ export default function DropFile() {
         const fileContent = await readFileContent(file);
 
         setCodeToConvert(fileContent as string);
-        setIsSubmitted(true);
+        setIsModalOpen(true);
       } catch (e) {
         console.error("Error reading file content: ", e);
-        toast.error("Something went wrong! Please try again.", {
-          duration: 5000,
-          style: {
-            color: "red",
-            borderRadius: "0.5rem",
-          },
-        });
+        getToastError();
       }
     })();
   }, [acceptedFiles]);
 
   function isValidSize(file: File) {
     if (file.size > 1000000) {
-      toast.warning(
-        "The file is too big! Please select a file less than 1MB.",
-        {
-          duration: 5000,
-          style: {
-            color: "orange",
-            borderRadius: "0.5rem",
-          },
-        }
+      getToastWarning(
+        "The file is too big! Please select a file less than 1MB."
       );
 
       return false;
@@ -97,15 +78,8 @@ export default function DropFile() {
     ];
 
     if (!validTypes.includes(file.type)) {
-      toast.warning(
-        "The file type is not supported! Please select a CSS, HTML, TSX or JSX file.",
-        {
-          duration: 5000,
-          style: {
-            color: "orange",
-            borderRadius: "0.5rem",
-          },
-        }
+      getToastWarning(
+        "The file type is not supported! Please select a CSS, HTML, TSX or JSX file."
       );
 
       return false;
