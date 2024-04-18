@@ -1,10 +1,12 @@
-import React, { Key } from "react";
-import { Button, Textarea, Tab, Tabs, code } from "@nextui-org/react";
-import UseRequests from "../hooks/useRequests";
-import { useGlobalActions, useGlobalState } from "../context/globalContext";
+import React from "react";
+import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+
 import { DataFromAPI } from "../utils/types";
 import { getToastError } from "../utils/toasts";
+import { codeValidator } from "../utils/functions";
+import { useGlobalActions, useGlobalState } from "../context/globalContext";
+import UseRequests from "../hooks/useRequests";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -55,8 +57,20 @@ export default function InputForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
-
       setCodeToConvert(content);
+
+      const codeLanguage = selectedMode === "ctt" ? "css" : "xml";
+      const validationResult = await codeValidator(content, codeLanguage);
+
+      if (!validationResult.isValid) {
+        console.error("Invalid code: ", validationResult.errors);
+
+        getToastError(
+          `Invalid ${codeLanguage} code! Please check your code and try again.`
+        );
+
+        return;
+      }
 
       const endpoint =
         selectedMode === "ctt" ? "css-to-tailwind" : "tailwind-to-css";
@@ -128,7 +142,7 @@ function ListboxWrapper({ isLoading }: Readonly<ListboxWrapperProps>) {
         color='secondary'
         isDisabled={isLoading}
         selectedKey={selectedMode}
-        onSelectionChange={handleSelect as (key: Key) => unknown}>
+        onSelectionChange={handleSelect as (key: React.Key) => unknown}>
         <Tab key='ctt' title='CSS to tailwind' />
         <Tab key='ttc' title='Tailwind to CSS' />
       </Tabs>

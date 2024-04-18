@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
-export function getToastError() {
-  return toast.error("Something went wrong! Please try again.", {
+export function getToastError(message?: string) {
+  return toast.error(message ?? "Something went wrong! Please try again.", {
     duration: 5000,
     style: {
       color: "red",
