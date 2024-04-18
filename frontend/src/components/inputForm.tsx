@@ -47,11 +47,19 @@ export default function InputForm() {
   }, [data, error]);
 
   React.useEffect(() => {
-    setContent(codeToConvert);
+    if (!codeToConvert) return;
+
+    setContent(deleteLastLine(codeToConvert));
   }, [codeToConvert]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setContent(event.target.value);
+  }
+
+  function deleteLastLine(text: string) {
+    const lines = text.split("\n");
+    lines.pop();
+    return lines.join("\n");
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -93,18 +101,30 @@ export default function InputForm() {
     return content.length === 0;
   }
 
+  function handleClearButton(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    setContent("");
+  }
+
   return (
     <form>
       <ListboxWrapper isLoading={loading} />
-      <Textarea
-        className='max-w-lg'
-        label='Code'
-        variant='bordered'
-        placeholder='Write or paste your code here...'
-        defaultValue={content}
-        value={content}
-        onChange={handleChange as React.ChangeEventHandler<HTMLInputElement>}
-      />
+      <div className='relative'>
+        <Textarea
+          className='max-w-full max-'
+          label='Code'
+          variant='bordered'
+          placeholder='Write or paste your code here...'
+          defaultValue={content}
+          value={content}
+          onChange={handleChange as React.ChangeEventHandler<HTMLInputElement>}
+        />
+        <button
+          className='absolute top-1 right-1 p-1 text-[12px] text-gray-500 hover:text-gray-700 transition-all duration-150'
+          onClick={handleClearButton}>
+          Clear
+        </button>
+      </div>
       <Button
         type='submit'
         variant='ghost'

@@ -5,17 +5,18 @@ import { useGlobalActions } from "../context/globalContext";
 export default function ExamplesLayer() {
   const { setCodeToConvert } = useGlobalActions();
 
+  // Math.random() is used to re-render the component if the same example is selected. It caused problems when de user deleted the code and selected the same example again.
   function handleSelect(key: number) {
     let example = null;
     switch (key) {
       case 1:
-        example = example_1;
+        example = example_1 + Math.random();
         break;
       case 2:
-        example = example_2;
+        example = example_2 + Math.random();
         break;
       case 3:
-        example = example_3;
+        example = example_3 + Math.random();
         break;
     }
 
