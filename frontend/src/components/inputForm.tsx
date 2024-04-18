@@ -9,7 +9,6 @@ import { getToastError } from "../utils/toasts";
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-//FIXME: It's posible that the request hook is send two times the request
 export default function InputForm() {
   const navigate = useNavigate();
   const { selectedMode } = useGlobalState();
@@ -82,7 +81,7 @@ export default function InputForm() {
 
   return (
     <form>
-      <ListboxWrapper />
+      <ListboxWrapper isLoading={loading} />
       <Textarea
         className='max-w-lg'
         label='Code'
@@ -109,8 +108,12 @@ export default function InputForm() {
   );
 }
 
+interface ListboxWrapperProps {
+  isLoading: boolean;
+}
+
 // #region ListboxWrapper
-function ListboxWrapper() {
+function ListboxWrapper({ isLoading }: Readonly<ListboxWrapperProps>) {
   const { setSelectedMode } = useGlobalActions();
   const { selectedMode } = useGlobalState();
 
@@ -123,6 +126,7 @@ function ListboxWrapper() {
       <Tabs
         size='md'
         color='secondary'
+        isDisabled={isLoading}
         selectedKey={selectedMode}
         onSelectionChange={handleSelect as (key: Key) => unknown}>
         <Tab key='ctt' title='CSS to tailwind' />

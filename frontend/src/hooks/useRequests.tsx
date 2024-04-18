@@ -14,6 +14,7 @@ export default function UseRequests<T, U = unknown>(): UseRequests<T, U> {
   const [error, setError] = React.useState<Error | null>(null);
 
   async function sendRequest(config: AxiosRequestConfig) {
+    console.log("Sending request...");
     setLoading(true);
     try {
       const response: AxiosResponse<T> = await axios(config);
