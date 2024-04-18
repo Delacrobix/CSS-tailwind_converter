@@ -8,6 +8,7 @@ import Principal from "./pages/principal";
 import Result from "./pages/result";
 import { useGlobalState } from "./context/globalContext";
 import NavbarMenu from "./components/navbar";
+import CustomFooter from "./components/footer";
 
 function App() {
   const { isSubmitted } = useGlobalState();
@@ -21,31 +22,24 @@ function App() {
             <>
               <NavbarMenu title={"CSS-Tailwind converter"} />
               <Principal />
+              <CustomFooter />
             </>
           }
         />
         <Route
           path='/result'
           element={
-            <>
-              <NavbarMenu title={"Result"} />
-              <Result />
-            </>
-          }
-        />
-        {/* <Route
-          path='/result'
-          element={
             isSubmitted ? (
               <>
-                <NavbarMenu />
+                <NavbarMenu title={"Result"} />
                 <Result />
+                <CustomFooter />
               </>
             ) : (
               <Navigate to='/' />
             )
           }
-        /> */}
+        />
       </Routes>
     </Router>
   );
