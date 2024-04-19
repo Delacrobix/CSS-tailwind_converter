@@ -19,22 +19,22 @@ function App() {
         <Route
           path='/'
           element={
-            <>
+            <div className='h-[100vh]'>
               <NavbarMenu title={"CSS-Tailwind converter"} />
               <Principal />
               <CustomFooter />
-            </>
+            </div>
           }
         />
         <Route
           path='/result'
           element={
             isSubmitted ? (
-              <>
+              <div className='h-[100vh]'>
                 <NavbarMenu title={"Result"} />
                 <Result />
                 <CustomFooter />
-              </>
+              </div>
             ) : (
               <Navigate to='/' />
             )

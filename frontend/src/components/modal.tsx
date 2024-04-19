@@ -35,6 +35,13 @@ export default function ModalLayout() {
   }, [isModalOpen]);
 
   React.useEffect(() => {
+    if (!isOpen) {
+      setIsModalOpen(false);
+      setIsSubmitted(false);
+    }
+  }, [isOpen]);
+
+  React.useEffect(() => {
     if (!codeToConvert) return;
     setCode(codeToConvert);
   }, [codeToConvert]);
@@ -51,8 +58,6 @@ export default function ModalLayout() {
         const formattedData: DataFromAPI = data;
         const jsonData = JSON.parse(formattedData.aiMessage);
         const code = jsonData.code;
-
-        console.log("typeOF: ", typeof code, "Code: ", code);
 
         if (typeof code === "string") {
           setConvertedCode(code);
@@ -74,6 +79,7 @@ export default function ModalLayout() {
   }, [data, error]);
 
   function handleCloseModal() {
+    console.log("Closing modal");
     setIsSubmitted(true);
     setIsModalOpen(false);
     onClose();
@@ -112,7 +118,7 @@ export default function ModalLayout() {
       onOpenChange={onOpenChange}>
       <ModalContent className=''>
         <>
-          <ModalHeader className='flex flex-col gap-1'>
+          <ModalHeader className='flex flex-col gap-1 text-center'>
             Confirm your file content
           </ModalHeader>
           <ModalBody className='overflow-y-auto'>
@@ -123,8 +129,8 @@ export default function ModalLayout() {
           </ModalBody>
           <ModalFooter className='flex justify-center'>
             <Button
-              color='secondary'
-              variant='light'
+              color='primary'
+              variant='ghost'
               isLoading={loading}
               onPress={handleClick}>
               Let's convert

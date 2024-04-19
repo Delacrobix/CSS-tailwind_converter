@@ -2,6 +2,7 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 import { useGlobalActions } from "../context/globalContext";
 import { getToastError, getToastWarning } from "../utils/toasts";
+import { codeValidator } from "../utils/functions";
 
 // TODO: Maybe show one page with the mode selected and file before convert
 export default function DropFile() {
@@ -25,6 +26,18 @@ export default function DropFile() {
     (async () => {
       try {
         const fileContent = await readFileContent(file);
+
+        if (file.type === "text/css") {
+          const codeValidation = await codeValidator(
+            fileContent as string,
+            "css"
+          );
+
+          if (!codeValidation.isValid) {
+            getToastError("The CSS code is not valid!");
+            return;
+          }
+        }
 
         setCodeToConvert(fileContent as string);
         setIsModalOpen(true);
@@ -109,7 +122,7 @@ export default function DropFile() {
       </div>
       <aside>
         <ul>
-          <li className=' text-sm'>
+          <li className='pl-1 text-gray-500 text-[13px]'>
             Files must be less than 1MB and of type CSS, HTML, TSX or JSX.
           </li>
         </ul>

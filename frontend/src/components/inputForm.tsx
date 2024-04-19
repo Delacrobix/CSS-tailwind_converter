@@ -108,7 +108,9 @@ export default function InputForm() {
 
   return (
     <form>
-      <ListboxWrapper isLoading={loading} />
+      <div className='w-full py-2'>
+        <ListboxWrapper isLoading={loading} />
+      </div>
       <div className='relative'>
         <Textarea
           className='max-w-full max-'
@@ -125,19 +127,22 @@ export default function InputForm() {
           Clear
         </button>
       </div>
-      <Button
-        type='submit'
-        variant='ghost'
-        color='primary'
-        isLoading={loading}
-        isDisabled={handleButtonDisable()}
-        onClick={
-          handleSubmit as React.MouseEventHandler<
-            HTMLButtonElement | HTMLFormElement
-          >
-        }>
-        Convert
-      </Button>
+      <div className='flex justify-center my-2'>
+        <Button
+          className='w-[40%]'
+          type='submit'
+          variant='ghost'
+          color='primary'
+          isLoading={loading}
+          isDisabled={handleButtonDisable()}
+          onClick={
+            handleSubmit as React.MouseEventHandler<
+              HTMLButtonElement | HTMLFormElement
+            >
+          }>
+          Convert
+        </Button>
+      </div>
     </form>
   );
 }
@@ -156,16 +161,15 @@ function ListboxWrapper({ isLoading }: Readonly<ListboxWrapperProps>) {
   }
 
   return (
-    <div className='flex flex-wrap gap-4'>
-      <Tabs
-        size='md'
-        color='secondary'
-        isDisabled={isLoading}
-        selectedKey={selectedMode}
-        onSelectionChange={handleSelect as (key: React.Key) => unknown}>
-        <Tab key='ctt' title='CSS to tailwind' />
-        <Tab key='ttc' title='Tailwind to CSS' />
-      </Tabs>
-    </div>
+    <Tabs
+      className='w-full flex items-center justify-center'
+      size='md'
+      color='secondary'
+      isDisabled={isLoading}
+      selectedKey={selectedMode}
+      onSelectionChange={handleSelect as (key: React.Key) => unknown}>
+      <Tab className='w-[100%]' key='ctt' title='CSS to tailwind' />
+      <Tab className='w-[100%]' key='ttc' title='Tailwind to CSS' />
+    </Tabs>
   );
 }
