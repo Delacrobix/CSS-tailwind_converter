@@ -4,6 +4,7 @@ import CodeBox from "../components/codeBox";
 import { Button } from "@nextui-org/react";
 import { getLanguage } from "../utils/functions";
 import { useNavigate } from "react-router-dom";
+import { getToastError } from "../utils/toasts";
 
 export default function Result() {
   const { selectedMode, codeToConvert, convertedCode, isSubmitted } =
@@ -13,6 +14,30 @@ export default function Result() {
   React.useEffect(() => {
     if (!isSubmitted) navigate("/");
   }, [isSubmitted]);
+
+  function handleDownloadFile() {
+    try {
+      const blobFile = selectedMode.startsWith("c")
+        ? new Blob([convertedCode], { type: "text/plain" })
+        : new Blob([convertedCode], { type: "text/css" });
+
+      const url = URL.createObjectURL(blobFile);
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+
+      a.href = url;
+      a.download = selectedMode.startsWith("c")
+        ? "convertedCode.html"
+        : "convertedCode.css";
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error: ", error);
+      getToastError();
+    }
+  }
 
   return (
     <div className='w-full flex flex-col items-center justify-center my-[5%]'>
@@ -41,7 +66,11 @@ export default function Result() {
         </div>
       </div>
       <div className='my-6'>
-        <Button size='lg' color='primary' variant='ghost'>
+        <Button
+          onClick={handleDownloadFile}
+          size='lg'
+          color='primary'
+          variant='ghost'>
           Download code
         </Button>
       </div>

@@ -12,7 +12,7 @@ export default function Principal() {
             <InputForm />
           </div>
         </div>
-        <div className='w-[10%] flex justify-center items-center'>
+        <div className='w-[7%] flex justify-center items-center'>
           <p className=''>OR</p>
         </div>
         <div className='flex justify-start items-center w-[45%] mt-6'>
