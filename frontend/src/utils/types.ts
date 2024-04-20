@@ -5,3 +5,9 @@ export type DataFromAPI = {
 export type AiMessage = {
   code: string;
 };
+
+export type ExamplesType = {
+  example_1: string;
+  example_2: string;
+  example_3: string;
+};

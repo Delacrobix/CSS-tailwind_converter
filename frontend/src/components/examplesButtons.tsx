@@ -1,9 +1,15 @@
 import { Button } from "@nextui-org/react";
-import { example_1, example_2, example_3 } from "../utils/examples";
 import { useGlobalActions } from "../context/globalContext";
+import { ExamplesType } from "../utils/types";
 
-export default function ExamplesLayer() {
+interface ExamplesProps {
+  examples: ExamplesType;
+}
+
+export default function ExamplesLayer({ examples }: Readonly<ExamplesProps>) {
   const { setCodeToConvert } = useGlobalActions();
+
+  const { example_1, example_2, example_3 } = examples;
 
   // Math.random() is used to re-render the component if the same example is selected. It caused problems when de user deleted the code and selected the same example again.
   function handleSelect(key: number) {

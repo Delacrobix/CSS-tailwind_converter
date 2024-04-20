@@ -1,4 +1,4 @@
-export const example_1 = `.container {
+const example_1 = `.container {
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -23,7 +23,7 @@ export const example_1 = `.container {
 }
 `;
 
-export const example_2 = `
+const example_2 = `
 .header {
   background-color: #333;
   color: #fff;
@@ -69,7 +69,7 @@ export const example_2 = `
 }
 `;
 
-export const example_3 = `
+const example_3 = `
 .header {
     background-color: #333;
     color: #fff;
@@ -118,3 +118,5 @@ export const example_3 = `
     text-align: center;
 }
 `;
+
+export default { example_1, example_2, example_3 };
