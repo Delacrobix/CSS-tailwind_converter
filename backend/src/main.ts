@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { OpenAIApiModule } from './openai-api/openai-api.module';
 import * as dotenv from 'dotenv';
 
 async function bootstrap() {
   dotenv.config();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(OpenAIApiModule);
 
   app.enableCors({
     origin: '*',

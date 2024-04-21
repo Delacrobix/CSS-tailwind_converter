@@ -73,9 +73,7 @@ export default function InputForm() {
       if (!validationResult.isValid) {
         console.error("Invalid code: ", validationResult.errors);
 
-        getToastError(
-          `Invalid ${codeLanguage} code! Please check your code and try again.`
-        );
+        getToastError(`Invalid code! Please check your code and try again.`);
 
         return;
       }
@@ -113,7 +111,8 @@ export default function InputForm() {
       </div>
       <div className='relative'>
         <Textarea
-          className='max-w-full max-'
+          maxRows={16}
+          className='max-w-full'
           label='Code'
           variant='bordered'
           placeholder='Write or paste your code here...'

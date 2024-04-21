@@ -15,6 +15,7 @@ export async function codeValidator(code: string, language: string) {
   let result = null;
 
   if (language === "css") result = await cssValidator.validateText(code);
+  if (language === "xml") return { isValid: true, errors: [] };
 
   if (!result) return { isValid: false, errors: [] };
   return { isValid: result.valid, errors: result.errors };

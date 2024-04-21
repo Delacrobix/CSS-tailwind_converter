@@ -25,6 +25,7 @@ export default function CodeBox({ code, language }: Readonly<CodeBoxProps>) {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    console.log(code);
     async function formatCode() {
       try {
         const newCode = prettier.format(code ?? "", {
