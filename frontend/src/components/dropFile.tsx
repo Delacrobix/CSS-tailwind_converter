@@ -4,7 +4,6 @@ import { useGlobalActions } from "../context/globalContext";
 import { getToastError, getToastWarning } from "../utils/toasts";
 import { codeValidator } from "../utils/functions";
 
-// TODO: Maybe show one page with the mode selected and file before convert
 export default function DropFile() {
   const { setCodeToConvert, setSelectedMode, setIsModalOpen } =
     useGlobalActions();

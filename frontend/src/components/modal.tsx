@@ -24,7 +24,7 @@ export default function ModalLayout() {
   const { setIsSubmitted, setConvertedCode, setIsModalOpen } =
     useGlobalActions();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const { loading, error, data, sendRequest } = UseRequests<string>();
+  const { loading, error, data, sendRequest } = UseRequests();
   const navigate = useNavigate();
 
   const [code, setCode] = React.useState<string>("");
@@ -79,7 +79,6 @@ export default function ModalLayout() {
   }, [data, error]);
 
   function handleCloseModal() {
-    console.log("Closing modal");
     setIsSubmitted(true);
     setIsModalOpen(false);
     onClose();

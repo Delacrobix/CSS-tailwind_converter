@@ -2,11 +2,11 @@ import React from "react";
 import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
-import { DataFromAPI } from "../utils/types";
 import { getToastError } from "../utils/toasts";
 import { codeValidator } from "../utils/functions";
 import { useGlobalActions, useGlobalState } from "../context/globalContext";
 import UseRequests from "../hooks/useRequests";
+import { AiMessageParsed } from "../utils/types";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -14,7 +14,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 export default function InputForm() {
   const navigate = useNavigate();
   const { selectedMode } = useGlobalState();
-  const { loading, error, data, sendRequest } = UseRequests<string>();
+  const { loading, error, data, sendRequest } = UseRequests();
   const { setCodeToConvert, setConvertedCode, setIsSubmitted } =
     useGlobalActions();
   const { codeToConvert } = useGlobalState();
@@ -31,9 +31,9 @@ export default function InputForm() {
 
     if (data) {
       try {
-        const formattedData: DataFromAPI = data;
-        const jsonData = JSON.parse(formattedData.aiMessage);
-        const code = jsonData.code;
+        const stringCode = data.aiMessage;
+        const jsonCode: AiMessageParsed = JSON.parse(stringCode);
+        const code = jsonCode.code;
 
         setConvertedCode(code);
         setIsSubmitted(true);
@@ -49,16 +49,23 @@ export default function InputForm() {
   React.useEffect(() => {
     if (!codeToConvert) return;
 
-    setContent(deleteLastLine(codeToConvert));
+    setContent(deleteLastLineIfIsNumber(codeToConvert));
   }, [codeToConvert]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setContent(event.target.value);
   }
 
-  function deleteLastLine(text: string) {
-    const lines = text.split("\n");
-    lines.pop();
+  function deleteLastLineIfIsNumber(code: string) {
+    const lines = code.split("\n");
+
+    const lastLine = lines[lines.length - 1];
+    const hasNumber = /\d/.test(lastLine.trim());
+
+    if (hasNumber) {
+      lines.pop();
+    }
+
     return lines.join("\n");
   }
 

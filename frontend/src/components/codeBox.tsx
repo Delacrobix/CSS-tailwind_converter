@@ -25,7 +25,6 @@ export default function CodeBox({ code, language }: Readonly<CodeBoxProps>) {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    console.log(code);
     async function formatCode() {
       try {
         const newCode = prettier.format(code ?? "", {
@@ -41,7 +40,6 @@ export default function CodeBox({ code, language }: Readonly<CodeBoxProps>) {
         setFormattedCode((await newCode) ?? "");
       } catch (error) {
         console.error(error);
-        console.log(code);
         getToastError();
         navigate("/");
       }

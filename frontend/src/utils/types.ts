@@ -1,8 +1,8 @@
 export type DataFromAPI = {
-  aiMessage: AiMessage;
+  aiMessage: string;
 };
 
-export type AiMessage = {
+export type AiMessageParsed = {
   code: string;
 };
 
