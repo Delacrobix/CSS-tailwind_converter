@@ -116,7 +116,7 @@ export default function DropFile() {
         className='border border-dashed border-gray-400 p-4 rounded-lg text-center cursor-pointer '>
         <input {...getInputProps()} />
         <p className='text-gray-600'>
-          Drag 'n' drop some files here, or click to select files
+          Drag 'n' drop some file here, or click to select files
         </p>
       </div>
       <aside>

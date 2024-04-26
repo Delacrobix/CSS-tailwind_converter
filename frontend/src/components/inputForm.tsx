@@ -1,5 +1,12 @@
 import React from "react";
-import { Button, Textarea, Tab, Tabs } from "@nextui-org/react";
+import {
+  Button,
+  Textarea,
+  Tab,
+  Tabs,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
 import { getToastError } from "../utils/toasts";
@@ -162,20 +169,28 @@ function ListboxWrapper({ isLoading }: Readonly<ListboxWrapperProps>) {
   const { setSelectedMode } = useGlobalActions();
   const { selectedMode } = useGlobalState();
 
-  function handleSelect(value: string) {
-    setSelectedMode(value);
+  function handleSelectionChange(e: {
+    target: { value: React.SetStateAction<string> };
+  }) {
+    setSelectedMode(e.target.value);
   }
 
   return (
-    <Tabs
-      className='w-full flex items-center justify-center'
+    <Select
+      items={["ctt", "ttc"]}
+      defaultSelectedKeys={[selectedMode]}
+      onChange={handleSelectionChange}
       size='md'
       color='secondary'
       isDisabled={isLoading}
-      selectedKey={selectedMode}
-      onSelectionChange={handleSelect as (key: React.Key) => unknown}>
-      <Tab className='w-[100%]' key='ctt' title='CSS to tailwind' />
-      <Tab className='w-[100%]' key='ttc' title='Tailwind to CSS' />
-    </Tabs>
+      label='Select mode'
+      placeholder='Select mode'>
+      <SelectItem key={"ctt"} value={"ctt"}>
+        CSS to Tailwind
+      </SelectItem>
+      <SelectItem key={"ttc"} value={"ttc"}>
+        Tailwind to CSS
+      </SelectItem>
+    </Select>
   );
 }

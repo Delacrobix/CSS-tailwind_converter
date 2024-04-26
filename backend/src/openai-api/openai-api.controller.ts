@@ -6,8 +6,6 @@ import {
   TAILWIND_TO_CSS_PROMPT,
 } from './utils/prompts';
 
-// TODO: Control with AI is the code is valid
-
 @Controller('openai-api')
 export class OpenAIApiController {
   constructor(private readonly service: OpenAIApiService) {}
