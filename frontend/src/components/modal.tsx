@@ -110,12 +110,8 @@ export default function ModalLayout() {
   }
 
   return (
-    <Modal
-      size='2xl'
-      className='h-3/4'
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}>
-      <ModalContent className=''>
+    <Modal className='h-3/4' isOpen={isOpen} onOpenChange={onOpenChange}>
+      <ModalContent className='w-[90%]  md:w-full'>
         <>
           <ModalHeader className='flex flex-col gap-1 text-center'>
             Confirm your file content

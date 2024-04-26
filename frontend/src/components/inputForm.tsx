@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Textarea,
-  Tab,
-  Tabs,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, Textarea, Select, SelectItem } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
 import { getToastError } from "../utils/toasts";
