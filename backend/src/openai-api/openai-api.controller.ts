@@ -1,6 +1,6 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { OpenAIApiService } from './openai-api.service';
-import { GetOpenAIAnswerInputDTO } from './model/openai-answer.dto';
+import { GetAIAnswerInputDTO } from '../models/openai-answer.dto';
 import {
   CSS_TO_TAILWIND_PROMPT,
   TAILWIND_TO_CSS_PROMPT,
@@ -13,7 +13,7 @@ export class OpenAIApiController {
   @Post('css-to-tailwind')
   async cssToTailwind(
     @Body(new ValidationPipe({ transform: true }))
-    data: GetOpenAIAnswerInputDTO,
+    data: GetAIAnswerInputDTO,
   ) {
     try {
       const prompt = CSS_TO_TAILWIND_PROMPT(data.message);
@@ -27,7 +27,7 @@ export class OpenAIApiController {
   @Post('tailwind-to-css')
   async tailwindToCss(
     @Body(new ValidationPipe({ transform: true }))
-    data: GetOpenAIAnswerInputDTO,
+    data: GetAIAnswerInputDTO,
   ) {
     try {
       const prompt = TAILWIND_TO_CSS_PROMPT(data.message);

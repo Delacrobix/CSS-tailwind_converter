@@ -1,18 +1,18 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class GetOpenAIAnswerInputDTO {
+export class GetAIAnswerInputDTO {
   @IsString()
   @IsNotEmpty()
   message: string;
 }
 
-export class GetOpenAIAnswerOutputDTO {
+export class GetAIAnswerOutputDTO {
   @IsString()
   @IsNotEmpty()
   aiMessage: string;
 
   static getInstance(aiMessage: string) {
-    const dto = new GetOpenAIAnswerOutputDTO();
+    const dto = new GetAIAnswerOutputDTO();
     dto.aiMessage = aiMessage;
     return dto;
   }

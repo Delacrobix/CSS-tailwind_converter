@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
-import { GetOpenAIAnswerOutputDTO } from './model/openai-answer.dto';
+import { GetAIAnswerOutputDTO } from '../models/openai-answer.dto';
 
 const DEFAULT_TEMPERATURE = 1;
 const DEFAULT_MODEL = 'gpt-3.5-turbo';
@@ -24,7 +24,7 @@ export class OpenAIApiService {
 
       const aiMessage = result.content.toString();
 
-      return GetOpenAIAnswerOutputDTO.getInstance(aiMessage);
+      return GetAIAnswerOutputDTO.getInstance(aiMessage);
     } catch (error) {
       console.error('Error in OpenAIApiService.getAIResponse: ', error);
       throw error;
