@@ -11,6 +11,7 @@ export class CohereAIApiService {
   constructor() {
     this.chat = new Cohere({
       apiKey: COHERE_API_KEY,
+      model: 'command-r-plus',
     });
   }
 
@@ -18,11 +19,9 @@ export class CohereAIApiService {
     try {
       const result = await this.chat.invoke(prompt);
 
-      console.log('CohereAIApiService.getAIResponse: ', result);
+      const aiMessage = result.toString();
 
-      // const aiMessage = result;
-
-      // return GetAIAnswerOutputDTO.getInstance(aiMessage);
+      return GetAIAnswerOutputDTO.getInstance(aiMessage);
     } catch (error) {
       console.error('Error in OpenAIApiService.getAIResponse: ', error);
       throw error;
