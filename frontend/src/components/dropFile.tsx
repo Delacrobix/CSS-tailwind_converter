@@ -91,7 +91,7 @@ export default function DropFile() {
 
     if (!validTypes.includes(file.type)) {
       getToastWarning(
-        "The file type is not supported! Please select a CSS, HTML, TSX or JSX file."
+        "The file type is not supported! Please select a CSS or HTML file."
       );
 
       return false;
@@ -102,10 +102,14 @@ export default function DropFile() {
     return true;
   }
 
-  //TODO: Add more modes in the future
   function handleSelectMode(file: File) {
-    if (file.type === "text/css") {
-      setSelectedMode("ctt");
+    switch (file.type) {
+      case "text/css":
+        setSelectedMode("ctt");
+        break;
+      case "text/html":
+        setSelectedMode("ttc");
+        break;
     }
   }
 
@@ -122,7 +126,7 @@ export default function DropFile() {
       <aside>
         <ul>
           <li className='pl-1 text-gray-500 text-[13px]'>
-            Files must be less than 1MB and of type CSS, HTML, TSX or JSX.
+            Files must be less than 1MB and of type CSS or HTML.
           </li>
         </ul>
       </aside>
