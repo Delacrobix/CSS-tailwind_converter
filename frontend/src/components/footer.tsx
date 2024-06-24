@@ -1,20 +1,27 @@
-// import React from "react";
 import { Link } from "@nextui-org/react";
 
+import { useTheme } from "../context/themeState";
+
 export default function CustomFooter() {
+  const { isDarkMode } = useTheme();
   return (
-    <footer className='grid grid-cols-3 items-center justify-center bg-black p-4'>
+    <footer
+      className={`md:grid md:grid-cols-3  flex flex-col items-center justify-center  p-4 text-black ${isDarkMode ? " bg-slate-400 " : " bg-blue-200"}`}>
       <div className='flex justify-center'>
         <p className=' font-bold '>CSS Tailwind converter</p>
       </div>
-      <div className='flex justify-center'>
+      <div className='flex justify-center md:my-0 my-3'>
         <p className=''>
           <span>Developed by</span>
           <span className=' font-bold'> Jeffrey Rerín</span>
         </p>
       </div>
       <div className='flex justify-center'>
-        <Link isExternal href='http://www.jeffrm.com.co' showAnchorIcon>
+        <Link
+          color='secondary'
+          href='http://www.jeffrm.com.co'
+          isExternal
+          showAnchorIcon>
           My Portfolio
         </Link>
       </div>

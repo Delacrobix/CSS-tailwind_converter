@@ -6,7 +6,10 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import { useGlobalState } from "../context/globalContext";
+import SwitchTheme from "./switchTheme";
+import { useTheme } from "../context/themeState";
 
 interface NavbarMenuProps {
   title: string;
@@ -16,6 +19,7 @@ export default function NavbarMenu({ title }: Readonly<NavbarMenuProps>) {
   const { selectedMode } = useGlobalState();
   const navigate = useNavigate();
   const location = useLocation();
+  const { isDarkMode } = useTheme();
 
   const [mode, setMode] = React.useState<string>("");
 
@@ -40,7 +44,8 @@ export default function NavbarMenu({ title }: Readonly<NavbarMenuProps>) {
   }
 
   return (
-    <Navbar>
+    <Navbar
+      className={`text-black ${isDarkMode ? " bg-slate-400 " : " bg-blue-200"}`}>
       <NavbarBrand>
         <p className='font-bold text-inherit'>{mode}</p>
       </NavbarBrand>
@@ -53,12 +58,17 @@ export default function NavbarMenu({ title }: Readonly<NavbarMenuProps>) {
         {handleShowReturnButton() && (
           <NavbarItem>
             <button
-              className=' bg-transparent text-blue-500'
+              className=' bg-transparent text-blue-800'
               onClick={handleNavigate}>
               Return
             </button>
           </NavbarItem>
         )}
+        <div className='-mr-6 py-6'>
+          <NavbarItem>
+            <SwitchTheme />
+          </NavbarItem>
+        </div>
       </NavbarContent>
     </Navbar>
   );

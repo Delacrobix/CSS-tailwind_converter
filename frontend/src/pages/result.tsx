@@ -40,9 +40,9 @@ export default function Result() {
   }
 
   return (
-    <div className='w-full flex flex-col items-center justify-center my-[5%]'>
-      <div className='h-full w-full flex items-center justify-center gap-4'>
-        <div className='max-w-[50]'>
+    <div className='md:my-28 my-10 md:px-4 px-1 w-full flex flex-col items-center justify-center '>
+      <div className='h-full w-full flex md:flex-row flex-col items-center justify-center gap-4'>
+        <div className='lg:max-w-[40%] md:max-w-[50%] w-full'>
           <p className='text-center font-bold'>FROM</p>
           <div className='overflow-y-auto'>
             <div className=' h-[500px]'>
@@ -53,7 +53,7 @@ export default function Result() {
             </div>
           </div>
         </div>
-        <div className='max-w-[50%] '>
+        <div className='lg:max-w-[40%] md:max-w-[50%] w-full '>
           <p className='text-center font-bold'>TO</p>
           <div className='overflow-y-auto'>
             <div className='h-[500px]'>

@@ -21,7 +21,7 @@ export default function Principal() {
   }, [selectedMode]);
 
   return (
-    <section className='flex flex-col justify-center items-center h-full w-full'>
+    <section className='md:my-28 my-10 flex flex-col justify-center items-center h-full w-full'>
       <div className='w-[90%] md:w-full flex flex-col md:flex-row justify-center items-center'>
         <div className='w-full flex justify-end items-center md:w-[45%]'>
           <div className='w-full md:w-[60%] '>

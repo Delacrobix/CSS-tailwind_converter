@@ -4,14 +4,17 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+
 import Principal from "./pages/principal";
 import Result from "./pages/result";
 import { useGlobalState } from "./context/globalContext";
 import NavbarMenu from "./components/navbar";
 import CustomFooter from "./components/footer";
+import { useTheme } from "./context/themeState";
 
 function App() {
   const { isSubmitted } = useGlobalState();
+  const { isDarkMode } = useTheme();
 
   return (
     <Router>
@@ -19,7 +22,8 @@ function App() {
         <Route
           path='/'
           element={
-            <div className='h-[100vh]'>
+            <div
+              className={`h-full ${isDarkMode && "dark text-foreground bg-background"}`}>
               <NavbarMenu title={"CSS-Tailwind converter"} />
               <Principal />
               <CustomFooter />
@@ -30,7 +34,8 @@ function App() {
           path='/result'
           element={
             isSubmitted ? (
-              <div className='h-[100vh]'>
+              <div
+                className={`h-full ${isDarkMode && "dark text-foreground bg-background"}`}>
                 <NavbarMenu title={"Result"} />
                 <Result />
                 <CustomFooter />

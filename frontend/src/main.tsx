@@ -6,12 +6,15 @@ import { Toaster } from "sonner";
 
 import "./css/tailwind.css";
 import { GlobalProvider } from "./context/globalContext.tsx";
+import { ThemeProvider } from "./context/themeState.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <NextUIProvider>
       <GlobalProvider>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </GlobalProvider>
       <Toaster visibleToasts={3} />
     </NextUIProvider>
