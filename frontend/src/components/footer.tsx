@@ -6,7 +6,7 @@ export default function CustomFooter() {
   const { isDarkMode } = useTheme();
   return (
     <footer
-      className={`md:grid md:grid-cols-3  flex flex-col items-center justify-center  p-4 text-black ${isDarkMode ? " bg-slate-400 " : " bg-blue-200"}`}>
+      className={`md:grid md:grid-cols-3  flex flex-col items-center justify-center  p-4 text-black ${isDarkMode ? " bg-purple-900" : " bg-purple-300"}`}>
       <div className='flex justify-center'>
         <p className=' font-bold '>CSS Tailwind converter</p>
       </div>

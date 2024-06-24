@@ -45,7 +45,7 @@ export default function NavbarMenu({ title }: Readonly<NavbarMenuProps>) {
 
   return (
     <Navbar
-      className={`text-black ${isDarkMode ? " bg-slate-400 " : " bg-blue-200"}`}>
+      className={`text-black ${isDarkMode ? " bg-purple-900" : " bg-purple-300"}`}>
       <NavbarBrand>
         <p className='font-bold text-inherit'>{mode}</p>
       </NavbarBrand>
