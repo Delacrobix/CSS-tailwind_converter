@@ -1,4 +1,4 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, ValidationPipe } from '@nestjs/common';
 import { CohereAIApiService } from './cohere-api.service';
 import { GetAIAnswerInputDTO } from '../models/openai-answer.dto';
 import {
@@ -9,6 +9,11 @@ import {
 @Controller('cohere-api')
 export class CohereAIApiController {
   constructor(private readonly service: CohereAIApiService) {}
+
+  @Get('health')
+  async healthCheck() {
+    return 'OK';
+  }
 
   @Post('css-to-tailwind')
   async cssToTailwind(

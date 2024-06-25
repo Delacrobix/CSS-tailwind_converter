@@ -1,7 +1,12 @@
 export function CSS_TO_TAILWIND_PROMPT(code: string) {
   return `Convert the following CSS to Tailwind CSS: 
   ${code}
-  The response must be an json object with the key "code" and the value as the converted Tailwind CSS code in string format. Consider de following rules: \n\n - For all elements create a html tag for example, wether the tag is ".container{}" or something similar, create a div tag. \n\n - Don't forget to close the tags \n\n - Don't create any tag "<styles>" with css styles inside. All the styles must be written in tailwind format \n\n - hover styles must be inside the class attribute/prop of the tag \n\n - Put all the styles on the class attribute/prop and the original class name too \n\n - If the class name is a reference to an specific html tag, create a html tag reference, for example for input ".button{}" create a button tag  \n\n - if the classes are nested, must to keep the structure \n\n The idea is have functional components just with your response. `;
+  The response must be an json object with the key "code" and the value as the converted Tailwind CSS code in string format. Consider de following rules: \n\n - For all elements create a html tag for example, wether the tag is ".container{}" or something similar, create a div tag. \n\n - Don't forget to close the tags \n\n - Don't create any tag "<styles>" with css styles inside. All the styles must be written in tailwind format \n\n - hover styles must be inside the class attribute/prop of the tag \n\n - Put all the styles on the class attribute/prop and the original class name too \n\n - If the class name is a reference to an specific html tag, create a html tag reference, for example for input ".button{}" create a button tag  \n\n - if the classes are nested, must to keep the structure \n\n The idea is have functional components just with your response. 
+  
+  A correct response will looks like something like this:
+  
+  "aiMessage": "{\n  \"code\": \"<div class='container max-w-2xl mx-auto'></div> <div class='title text-2xl font-bold text-gray-700'></div> <button class='button px-4 py-2 bg-blue-500 text-white rounded focus:outline-none cursor-pointer hover:bg-blue-700'></button>\"\n}"
+`;
 }
 
 export function TAILWIND_TO_CSS_PROMPT(code: string) {
@@ -23,5 +28,10 @@ export function TAILWIND_TO_CSS_PROMPT(code: string) {
     - .font-bold {}
     - .text-gray-700 {}
     - #Category {}
-    - nav .flex {}`;
+    - nav .flex {}
+
+    A correct response will looks like something like this:
+    
+    "aiMessage": "{\n  \"code\": \"container {\\n  display: flex;\\n  align-items: center;\\n  justify-content: space-between;\\n}\\n\\ncontainer button {\\n  display: flex;\\n  align-items: center;\\n  padding: 0.75rem 1rem;\\n}\\n\\ncontainer button:hover {\\n  color: white;\\n}\\n\\ncontainer .hidden {\\n  display: none;\\n}\\n\\ncontainer .hidden a {\\n  display: block;\\n  margin-top: 1rem;\\n  color: white;\\n}\\n\\ncontainer .hidden a:hover {\\n  color: #c0c0c0;\\n}\"\n}"
+`;
 }
